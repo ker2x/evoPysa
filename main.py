@@ -17,6 +17,8 @@ class EvoPysa(wx.Frame):
 
         self.frame = wx.Frame.__init__(self, parent, title=title, size=size)
         self.createMenu()
+        self.createWindow()
+
         self.Show(True)
 
     def createMenu(self):
@@ -38,7 +40,8 @@ class EvoPysa(wx.Frame):
         self.menuBar.Append(self.fileMenu, "&File")
         self.SetMenuBar(self.menuBar)
 
-        # main window
+    def createWindow(self):
+        """main window"""
         self.mainSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.leftSizer = wx.BoxSizer(wx.VERTICAL)
         self.mainSizer.Add(self.leftSizer, proportion=2)
@@ -51,9 +54,11 @@ class EvoPysa(wx.Frame):
         self.leftSizer.Add(self.startStopButton, flag=wx.EXPAND, border=0)
         self.leftSizer.Add(self.scaleSlider, flag=wx.EXPAND)
 
+        self.Bind(wx.EVT_SCROLL_CHANGED, self.OnScaleChange, self.scaleSlider)
+
         # right column
-        self.removemetoo = wx.Button(self, -1, "remove me too")
-        self.mainSizer.Add(self.removemetoo, proportion=8, flag=wx.EXPAND)
+        self.removeme = wx.Button(self, -1, "remove me")
+        self.mainSizer.Add(self.removeme, proportion=8, flag=wx.EXPAND)
         self.SetSizer(self.mainSizer)
 
     def OnOpen(self, event):
@@ -92,6 +97,8 @@ class EvoPysa(wx.Frame):
         """Close the frame"""
         self.Close(True)
 
+    def OnScaleChange(self, event):
+        print("scale changed : ", self.scaleSlider.Value)
 
 if __name__ == '__main__':
     print("wxPython : ", wx.version())
