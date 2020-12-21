@@ -1,16 +1,19 @@
+"""EvoPysa : An EvoLisa Clone in Python"""
+
 import wx
 from dna.point import Point
 from dna.polygon import Polygon
 from dna.brush import Brush
-import os
+# import os
 
 
 class EvoPysa(wx.Frame):
     """Main class"""
+
     def __init__(self, parent, title, size=(800, 600)):
         self.fileMenu = None
         self.menuAbout = None
-        self.menuBar  = None
+        self.menuBar = None
         self.menuExit = None
         self.menuOpen = None
         self.menuSave = None
@@ -51,6 +54,7 @@ class EvoPysa(wx.Frame):
         self.mainSizer.Add(self.leftSizer, proportion=2)
 
         # left column
+        # TODO buttons and slider should be at the bottom
         self.startStopButton = wx.Button(self, -1, "Start/Stop")
         self.scaleSlider = wx.Slider(
             self, value=1, minValue=1, maxValue=10, name="Scale",
@@ -61,11 +65,12 @@ class EvoPysa(wx.Frame):
         self.Bind(wx.EVT_SCROLL_CHANGED, self.OnScaleChange, self.scaleSlider)
 
         # right column
+        # TODO remove removeme
         self.removeme = wx.Button(self, -1, "remove me")
         self.mainSizer.Add(self.removeme, proportion=8, flag=wx.EXPAND)
         self.SetSizer(self.mainSizer)
 
-    def OnOpen(self, event):
+    def OnOpen(self, e):
         """Load a new image"""
         # TODO just a copypasta for now
         dirname = ''
@@ -78,7 +83,7 @@ class EvoPysa(wx.Frame):
             # f.close()
         dlg.Destroy()
 
-    def OnSave(self, event):
+    def OnSave(self, e):
         """Save a generated image"""
         # TODO just a copypasta for now
         dirname = ''
@@ -91,23 +96,27 @@ class EvoPysa(wx.Frame):
             # f.close()
         dlg.Destroy()
 
-    def OnAbout(self, event):
+    def OnAbout(self, e):
         """A message dialog box with an OK button. wx.OK is a standard ID in wxWidgets."""
         dlg = wx.MessageDialog(self, "A dumb EvoLisa clone as i learned wxWidget", "About EvoPysa")
         dlg.ShowModal()
         dlg.Destroy()
 
-    def OnExit(self, event):
+    def OnExit(self, e):
         """Close the frame"""
         self.Close(True)
 
-    def OnScaleChange(self, event):
+    def OnScaleChange(self, e):
         """When the scale slider changed"""
         print("scale changed : ", self.scaleSlider.Value)
 
 
 if __name__ == '__main__':
     print("wxPython : ", wx.version())
+    p1 = Point()
+    p2 = Point()
+    print(p1)
+    print(p2)
     app = wx.App(redirect=False, useBestVisual=True)
     evo = EvoPysa(None, "EvoPysa")
     app.MainLoop()
