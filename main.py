@@ -1,10 +1,13 @@
 import wx
+from dna.point import Point
+from dna.polygon import Polygon
+from dna.brush import Brush
 import os
 
 
 class EvoPysa(wx.Frame):
     """Main class"""
-    def __init__(self, parent, title, size=(800,600)):
+    def __init__(self, parent, title, size=(800, 600)):
         self.fileMenu = None
         self.menuAbout = None
         self.menuBar  = None
@@ -14,6 +17,7 @@ class EvoPysa(wx.Frame):
         self.mainSizer = None
         self.leftSizer = None
         self.startStopButton = None
+        self.scaleSlider = None
 
         self.frame = wx.Frame.__init__(self, parent, title=title, size=size)
         self.createMenu()
@@ -50,7 +54,7 @@ class EvoPysa(wx.Frame):
         self.startStopButton = wx.Button(self, -1, "Start/Stop")
         self.scaleSlider = wx.Slider(
             self, value=1, minValue=1, maxValue=10, name="Scale",
-            style = wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS)
+            style=wx.SL_HORIZONTAL | wx.SL_AUTOTICKS | wx.SL_LABELS)
         self.leftSizer.Add(self.startStopButton, flag=wx.EXPAND, border=0)
         self.leftSizer.Add(self.scaleSlider, flag=wx.EXPAND)
 
@@ -64,27 +68,27 @@ class EvoPysa(wx.Frame):
     def OnOpen(self, event):
         """Load a new image"""
         # TODO just a copypasta for now
-        self.dirname = ''
-        dlg = wx.FileDialog(self, "Choose a file", self.dirname, "", "*.*", wx.FD_OPEN)
+        dirname = ''
+        dlg = wx.FileDialog(self, "Choose a file", dirname, "", "*.*", wx.FD_OPEN)
         if dlg.ShowModal() == wx.ID_OK:
-            self.filename = dlg.GetFilename()
-            self.dirname = dlg.GetDirectory()
-            #f = open(os.path.join(self.dirname, self.filename), 'r')
-            #self.control.SetValue(f.read())
-            #f.close()
+            filename = dlg.GetFilename()
+            dirname = dlg.GetDirectory()
+            # f = open(os.path.join(self.dirname, self.filename), 'r')
+            # self.control.SetValue(f.read())
+            # f.close()
         dlg.Destroy()
 
     def OnSave(self, event):
         """Save a generated image"""
         # TODO just a copypasta for now
-        self.dirname = ''
-        dlg = wx.FileDialog(self, "Choose a file", self.dirname, "", "*.*", wx.FD_OPEN)
+        dirname = ''
+        dlg = wx.FileDialog(self, "Choose a file", dirname, "", "*.*", wx.FD_OPEN)
         if dlg.ShowModal() == wx.ID_OK:
-            self.filename = dlg.GetFilename()
-            self.dirname = dlg.GetDirectory()
-            #f = open(os.path.join(self.dirname, self.filename), 'r')
-            #self.control.SetValue(f.read())
-            #f.close()
+            filename = dlg.GetFilename()
+            dirname = dlg.GetDirectory()
+            # f = open(os.path.join(self.dirname, self.filename), 'r')
+            # self.control.SetValue(f.read())
+            # f.close()
         dlg.Destroy()
 
     def OnAbout(self, event):
@@ -98,7 +102,9 @@ class EvoPysa(wx.Frame):
         self.Close(True)
 
     def OnScaleChange(self, event):
+        """When the scale slider changed"""
         print("scale changed : ", self.scaleSlider.Value)
+
 
 if __name__ == '__main__':
     print("wxPython : ", wx.version())
